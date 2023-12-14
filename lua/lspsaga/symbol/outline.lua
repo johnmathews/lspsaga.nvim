@@ -38,6 +38,7 @@ end
 local function outline_in_float()
   local win_width = api.nvim_win_get_width(0)
   local curbuf = api.nvim_get_current_buf()
+  local expand_nodes = config.outline.expand_nodes or true
 
   return ly:new('float')
     :left(
@@ -167,7 +168,7 @@ function ot:parse(symbols, curline)
       copy.inlevel = #indent
 
       if node.children and #node.children > 0 then
-        copy.expand = true
+        copy.expand = expand_nodes
         copy.virtid = uv.hrtime()
         buf_set_extmark(self.bufnr, ns, row - 1, #indent - 4, {
           id = copy.virtid,
